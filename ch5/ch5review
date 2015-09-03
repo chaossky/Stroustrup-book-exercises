@@ -1,0 +1,131 @@
+1.  Name four major types of errors and briefly describe each one.
+
+- Compile-time errors:  These errors stop the compiler from translating your code.  Things such as assigning a string to an int variable, forgetting to terminate a statement with a semicolon, misspelling a word, or improperly referencing a pointer can cause the compiler to stop.  These errors are the easiest to fix, because the compiler tells you where the problem is.
+
+- Link-time errors:  These errors stop the linker from combining your code files into an executable.  Things such as declaring and referencing a function but not including a function body can cause link-time errors.  This becomes more pertinent when dealing with code that is spread over many files.
+
+- Run-time errors:  These errors happen after the code has been successfully compiled and linked.  Things such as improperly designed loops, referencing a nonexistent member of a vector or array, or trying to access a part of memory that hasn't been allocated can cause run-time errors.  The compiler or linker cannot catch these errors for you; their only job is to make sure that the code is plausible, not that it does what you want.
+
+- Logic errors:  These errors happen after you've done everything else right, but it's still wrong.  The same sort of things that cause run-time errors can cause logic errors.  The main difference is that a run-time error is catastrophic for the most part, whereas a logic error is just an incorrect or unintended behavior of a program.  These can be the toughest to pinpoint, because really the error is in the brain of the programmer.
+
+
+2.  What kinds of errors can we ignore in student programs?
+
+My answer is: none of them.  They are all important.
+
+
+3.  What guarantees should every completed project offer?
+
+It should produce the results you want for all legal inputs.  It should give an informative error message for any illegal inputs.  It should be able to properly handle misbehaving hardware.  It should not worry about misbehaving software.  If it finds an error, it should terminate.
+
+
+4.  List three approaches we can take to eliminate errors in programs and produce acceptable software.
+
+The three approaches outlined in the book are:  to organize software in sucha way to minimize errors.  To eliminate most of the errors that we make through debugging and testing.  And to make sure the errors that remain are not serious.
+
+
+5.  Why do we hate debugging?
+
+To me, in a nutshell, the real answer to this question is that debugging does not feel like coding to us.  Coding is supposed to feel like typing in a whole bunch of words and then magic happens.  Debugging is the meat of coding in actuality, but it doesn't feel like it is.  Also, debugging can be very stressful and humiliating; a programmer types in code with the best intentions, and with pride in their logical skills, and to have the computer demonstrate their thinking as erroneous hurts the pride.  And yet...being a humble and hard-working debugger is probably more important to being a good programmer than the typing in of the code.
+
+
+6.  What is a syntax error?  Give five examples.
+
+- misspelling of a reserved word like int (itn a=5;)
+- using the wrong symbol for an operator (if(a===5))
+- not terminating the end of a statement or code block properly (cout<<"not terminated right")
+- forgetting a parenthese or brace to end a code block (for(;;) {cout<<"this goes forever")
+- forgetting the end quote of a string or character literal (string s="five)
+
+
+7.  What is a type error?  Give five examples.
+
+- putting the wrong kind of information into a variable (int a="five")
+- calling a function with the wrong arguments
+- misspelling of a defined function name
+- attempting to access a nonexistent element of an array
+- returning information that is a different type than what the function declaration says the function will return
+
+
+8.  What is a linker error?  Give three examples.
+
+- calling a function that has been defined, but not declared in the code.
+- improperly written headers that define the same function twice will throw linker errors
+- the linker will throw an error if a function is called with inputs and no overloaded definition of the function is found
+
+
+9.  What is a logic error?  Give three examples.
+
+- improperly parenthesizing certain mathematical expressions can create logic errors
+- "off-by-one", using the wrong boolean comparison symbol in a loop or if statement, causing it to run over the expected range of values
+- improperly coding the terminating condition of a loop, causing it to run infinitely, or not at all
+
+
+10.  List four potential sources of program errors discussed in the text.
+
+- The slip of a finger.  Sometimes, you just don't type it in properly and then don't notice.
+- Another programmer working on code that is inscrutably written or insufficiently commented, so that they end up making changes that they do not fully understand.
+- The hardware has changed, but the code has not, so that the machine that it runs on does not behave as expected.
+- The program depends on pre-written library functions which have changed, and no longer behave as the program expects.
+
+
+11.  How do you know if a result is plausible?  What techniques do you have to answer such questions?
+
+The easiest way to know if a result is plausible is to have skill at estimation.  If you can estimate the area of a hexagon, for example, you can assess whether a routine that calculates the area of a hexagon is anywhere close to correct.  Common sense encompasses most of our everyday, real-world skills at estimation, which can suffice for many things.  Testing a function with improbable extremes of inputs is a good way to determine if it is properly handling the input...it might work for "normal" inputs, but have subtle errors that are exposed at the extremes.
+
+
+12.  Compare and contrast having the caller of a function handle a run-time error vs. the called function's handling the run-time error.
+
+The caller of a function is better equipped to deal with a run-time error than the function itself in most cases, since the function caller is closer to the context of the error.  If a function decided to handle its own errors, that could very easily be problematic...what if the function decided to terminate on every error?  That leaves very little latitude for the programmer using the function to decide on error handling.  Much better instead for the function to send back an error code...that way, the program using the function can decide if the error warrants termination.  The program has more room to decide on how to handle the error:  maybe the results of the function are simply discarded with an error message output, maybe the function is recalled with different inputs, or maybe the entire program is terminated.  Giving error control to the caller of the function allows for more choice in this regard, and is therefore almost always the better way to go.
+
+
+13.  Why is using exceptions a better idea than returning an "error value"?
+
+Exceptions are a widely used and understood standard for communicating the nature of an error.  Communication of an error should be as well understood as possible, and the best way is for there to be one protocol that works efficiently.  Exceptions are the standard for this.  Exceptions are also a flexible mechanism that can handle errors without crashing a program, and that allows a programmer to have plenty of control over how an error is handled.
+
+
+14.  How do you test if an input operation succeeded?
+
+In most of the code I have been writing so far for the book exercises, the cin stream object returns a true or false value based on the success of the input operation.  Writing a conditional such as "if(cin>>inp)" will cause the input operation to be attempted, and the conditional will branch depending on whether the input was valid for the variable or not.  That is the literal test for if the operation succeeded.  In a slightly broader sense, I run a program with just the input loop first, to make sure that the information is being received properly, before I even write the rest of the code.  That is a safe practice.
+
+
+15.  Describe the process of how exceptions are thrown and caught.
+
+The code under inspection is run in a try{} block.  This code is "under probation"...if it causes an error, control passes to the proper catch{} block.  Accessing an out-of-range subscript of an array, for example, would normally cause a run-time error and termination of the program.  In a try-catch block, the programmer can specify exactly what the program does in case of such an error, which is not necessarily termination.  There is a stream where error messages are sent, and if an error message is thrown using the throw keyword, the information is known to the code in the catch{} block.
+
+
+16.  Why, with a vector called v, is v[v.size()] a range error?  What would be the result of calling this?
+
+The code would fail with a runtime error.  The first element of a vector is 0, therefore the nth element is actually v[n-1].  The element referenced by the actual size() value is one element past the last one in the vector...not a valid element.
+
+
+17.  Define pre-condition and post-condition; give an example (that is not the area() function from this chapter), preferably a computation that requires a loop.
+
+pre-condition:  the values before the computation in the function body.
+post-condition:  the values after the computation in the function body.
+Jesus, that area() function is the perfect example though...
+
+
+18.  When would you not test a pre-condition?
+
+If the function must be very tightly coded...the overhead of testing the pre-condition might not be worth the extra code.  If you were the *only* person using the function, you could probably get away with it as well.
+
+
+19.  When would you not test a post-condition?
+
+Same, if the overhead of testing would be too counter-productive.
+
+
+20.  What are the steps in debugging a program?
+
+As written in the book, a) Get the program to compile. b) Get the program to link.  c) Get the program to do what it is supposed to do.  In order, compile-time errors, link-time errors, run-time errors, then logic errors.
+
+
+21.  Why does commenting help when debugging?
+
+I do know this much...often when coding, you get high off of the trance and see the solution in such a concise and beautiful way.  It is delightful...and often inscrutable to the next person who has to read it, including you.  Hence the need for good comments, so that other people can look upon a glorious, divinely inspired masterpiece and actually understand what God coded through your hands.
+
+
+22.  How does testing differ from debugging?
+
+Debugging, you are trying to fix a program that is apparently broken.  Testing, you are trying to break a program that is apparently not broken...so that you can fix it even more.  Yeah, it's kind of perverse in a way.

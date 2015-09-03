@@ -1,0 +1,111 @@
+1.  What is the purpose of working on the program after the first version works?  Give a list of reasons.
+
+- There are still potential improvements, such as added functions, that can be made after a working version.
+
+- There might be edge-case scenarios that an apparently working first version does not cover.
+
+- To polish and hone the code that is already written.
+
+
+2.  Why does 1+2; q typed into the calculator not quit after it receives an error?
+
+Hmmm....Let me test the calculator...Actually, it works fine for me.  But that's because I tightened up the error handling.
+
+
+3.  Why did we choose to make a constant character called number?
+
+One, it removes ambiguity between the denotation of a number-type token and the character used to represent a number-type in the token...which is '8'.  Two, it sets a better precedent of using const labels for all of the characters that denote a type of token.
+
+
+4.  We split main() into two separate functions.  What does the new function do and why split main()?
+
+The new function, calculate(), is essentially the main program loop.  Splitting main in this way makes it easier to see what is the program loop and what is error handling, for better organization and diagnosis of problems.  It gets cumbersome combing through main() to fix a logic error in calculation.
+
+
+5.  Why do we split code into multiple functions?  State principles.
+
+Organizing the code into logical actions makes macro-assembling easier to understand.  It also forces the coder to refrain from entangling the operations of the different actions, so that each one is self-contained, making debugging and coding further easier.
+
+
+6.  What is the purpose of commenting and how should it be done?
+
+The purpose of commenting is to aid other coders (including future you) in understanding the code.  Commenting should explain things that are not obvious (not be superfluous or pedantic) in a clear and informative manner.
+
+
+7.  What does narrow_cast do?
+
+It casts a larger variable type to a smaller one in a predictable manner.
+
+
+8.  What is the use of symbolic constants?
+
+Symbolic constants take "magic numbers" and give them an obvious, easy to understand label.  This not only aids coders who are unfamiliar with the code, but the coder writing the code originally to make fewer mistakes in the code.
+
+
+9.  Why do we care about code layout?
+
+Because coding is not just about what runs on a computer; future maintenance and understandability are also very real concerns.  Code layout is an aid for the main person coding, but it is also invaluable to any future coders who must maintain the code.  The usefulness of a piece of code is closely related to the ability to maintain it, which is why a good layout can extend the lifespan and usefulness of a piece of code.
+
+
+10.  How do we handle % of floating-point numbers?
+
+That wasn't implemented at all in calculator08buggy.cpp that I downloaded, and quite frankly I just...didn't feel like implementing it.  However, there is a function that handles floating-point modulus called fmod(), as well as an equation that can be evaluated to a floating-point modulus.
+
+
+11.  What does is_declared() do and how does it work?
+
+is_declared() is a boolean function that returns true if a variable name is pre-existing, and false if it is not.  I changed the calculator code so that a let declaration would alter a pre-existing variable.  Originally, that function would tell the program to throw an error if you tried to declare a variable that already existed, but that's dumb and counterintuitive.  Now, the function tells the code to change the value of the variable that is already there, instead of making a double of it.
+
+
+12.  The input representation for let is more than one character.  How is it accepted as a single token in the modified code?
+
+The token that represents LET has a unique kind character denotation, and modified primary() will attempt to capture a word if it fails to capture a number.  This was added to deal with variable names, but the same functionality is easily adapted to allow for single word commands of any type.  Including let.
+
+
+13.  What are the rules for what names can and cannot be in the calculator program?
+
+The name must start with a letter, and stops reading when it encounters a symbol that is neither a letter nor a number.  It can't start with a number...that screws with primary().  It can't have a non-alphanumeric symbol in it...that's how primary() figures out where the name stops, and enables easy use of operators.
+
+
+14.  Why is it a good idea to build a program incrementally?
+
+The same reason why it is a good idea to build a house on a solid foundation:  it saves a lot of time and effort in the future.  After a bit of coding experience, I begin to realize a certain nice sense of security knowing that one piece of code is solid, and the next piece can be built atop it.
+
+
+15.  When do you start to test?
+
+Once the program compiles successfully, and *appears* not to have logic errors in it.
+
+
+16.  When do you retest?
+
+Once the program compiles successfully, appears not to have logic errors, and appears to have passed all of the first round of tests.
+
+
+17.  How do you decide what should be a separate function?
+
+It just kind of makes sense to me what should and should not be a function, it's kind of an
+artistic feel.  But coding isn't supposed to be an artform, even though it is, so we can't
+talk about it with artist language as is done with music.  Gee, I am not sure how to answer that...whenever the code can be broken into discrete logical pieces?
+
+
+18.  How do you choose names for variables and functions?  List possible reasons?
+
+If it's a name that doesn't really matter, like a loop iterator or temporary variable, I pick a name that is the shortest identifiable symbol, so I don't have to get pissed off typing it a billion times.
+If it's a name that does matter, you want to pick something that is easily understandable to someone else, but still not so long that it makes unwieldy syntax on the screen.  Maybe don't name the variable Supercalifragilisticexpealidocious, call it supercali instead.  Like that.
+Either way, the more the name of the variable/function matters, the more that readability should be prioritized over length.
+
+
+19.  Why do you add comments?
+
+So that I, or someone else, can review the code weeks, months, or years later and be able to understand it.
+
+
+20.  What should be in comments and what should not?
+
+Summaries of the purposes of functions is not a bad thing.  Things that are not obvious upon reading the code, but are still important.  What should not be in the comments are:  existential complaining, insults directed at management, or cute haiku that do nothing to clarify the code.  Those things are often in there anyway.
+
+
+21.  When do we consider a program finished?
+
+When it appears to do everything that we expect of it.

@@ -1,0 +1,153 @@
+1.  What is a computation?
+
+The act of producing outputs based on inputs.
+
+
+2.  What do we mean by inputs and outputs to a computation?  Give examples.
+
+A computation might, for example, give the square of an integer.  The input would be an integer.  The output would be that integer multiplied by itself.  The computation would be the part that does the squaring.
+
+
+3.  What are the three requirements a programmer should keep in ming when expressing computations?
+
+A programmer should express computations correctly, simply, and efficiently in their code.  Correctly, otherwise the computation is worthless.  Simply, so that it can be read and understood by other programmers who may have to use or modify the code.  Efficiently, so that the computation uses the least amount of computer processing resource as possible.
+
+
+4.  What does an expression do?
+
+An expression computes a value from a number of operands.  For example, a=45*b is an expression, which computes 45 multiplied by the value in the variable b, and then assigns the value to a.
+
+
+5.  What is the difference between a statement and an expression, as described in this chapter?
+
+I am not sure.  The chapter seems to say that an expression is a type of statement.
+
+
+6.  What is an lvalue?  List the operators that require an lvalue.  Why do these operators, and not the others, require an lvalue?
+
+An lvalue is any value that can go on the left hand side of an expression.  8 is not an lvalue, because the expression 8=b is not valid (you can't make 8 be anything other than what it is).  The operators that require an lvalue are...well, it's easier to say what doesn't require an lvalue.  Any of the boolean comparison operators do not require an lvalue, since they do not change the value of the value on the left hand side.  And then any of the unary bitwise operators don't require one either, since they don't change the value of the operand.
+
+
+7.  What is a constant expression?
+
+A constant expression is an expression that the compiler can count on to not change value.
+
+
+8.  What is a literal?
+
+A literal is a value spelled out exactly as it is, and not as the result of a computation.  "berries" is a string literal, because it requires no computation to be berries.  8 is a literal, again because it requires no computation.
+
+
+9.  What is a symbolic constant and why do we use them?
+
+A symbolic constant is an object that looks like a variable, but it is assigned a value and declared as a constant for the compiler.  A symbolic constant is not a valid lvalue even if it looks like a variable, because it is unchangeable.  const expr pi=3.14; is the expression of a symbolic constant.  pi now refers to 3.14, and there ain't shit you can do about it.
+
+
+10.  What is a magic constant?  Give examples.
+
+A magic constant is a number used in code where a symbolic constant would make the code simpler and easier to modify.  I guess, um, a program that draws a polygon, for example.  If the number 8 were used in the program at every point for the number of sides, that would be a magic constant.  The easier thing to do would be to make a symbolic constant SIDES and make it equal to 8.  Not only would the code be easier to read (people would know what that number was for), but if you ever chose to make the program draw a polygon with a number of sides other than 8, it would be much simpler to edit (you'd just have to go to the declaration of SIDES and change the number to...whatever).  It would be a nightmare trying to use the search function to find only the occurrences of the number 8 that were applicable to the number of sides...see what I'm getting at here?  Magic constants are bad.
+
+
+11.  What are some operators that we can use for integers and floating-point values?
+
++,-,*,/,% (is only good for integers),+=,-=, etc.
+
+
+12.  What operators can be used on integers but not floating point numbers?
+
+I am not sure if ++ or -- can be used on floats.  I suspect not.  For sure, the modulo (%) operator does not work with floats.  And I am not sure if the shift left or shift right operators are any good either.
+
+
+13.  What are some operators that can be used for strings?
+
+The assignment operator can be used.  +, and += can be used for concatenation.  < and > can be used for alphabetic comparisons (same as filing library books).  The boolean comparisons == and != can be used.  That's about it.
+
+
+14.  When would a programmer prefer a switch statement to an if statement?
+
+First off, if there are a lot of conditional branches stemming from one value (a menu selection in a menu with 7 options, for example).  In this case, it is easier to write a switch statement for all 7 options, instead of if statements.  It's just flat better organized for that shape of problem.  Another case is for speed.  A switch statement uses a different model internally for execution branches, a jump table.  The jump table is more brainless to the computer, and runs faster...so if the speed of the code is truly essential, cramming a decision into a switch statement might save some time.
+
+
+15.  What are some common problems with switch statements?
+
+One problem is that switch statements can't use strings, or certain other types.  I don't believe a switch statement can use custom objects, or any kind of non-numeral input other than a single char, and this is because of the nature of how the jump table is implemented inside of the machine.  So for certain values or inputs, you're shit out of luck if you want to switch, even if the model of switch-case would be easier to read in the code.  Another problem is that the cases are actually all one block of code.  A break must be manually entered at the end of every case, otherwise execution will just go to the next one, and the next one, and the next one.  This can be fun to take advantage of sometimes, but a lot of the time remembering all of the breaks can be the source of a lot of stupid problems in code, so switch statements can be inconvenient for some programmers.  I like them, myself.
+
+
+16.  What is the function of each part of the header line in a for-loop, and in what sequence are they executed?
+
+The first part of the header is the initialization section.  This part is executed once at the beginning of the for-loop.  The middle part of the header is the test.  This part is a piece of code that evaluates to true or false, and if it false then the loop stops execution.  The last part of the header is the incrementor.  This part is the piece of code that executes after the loop body executes.  Normally, the loop is declared with for(int i=0;i<10;i++) to run 10 times.  This is a conventional way to use a for loop.  However, each section of the loop is optional, and only actually executes as explained.  Any code can be put in those parts of the loop, as long as they work.  In fact, I believe the only requirement for the code in the header of a for loop is that the test portion must evaluate to a boolean expression.
+
+
+17.  When should the for-loop be used and when should the while-loop be used?
+
+The usual criteria is that the for loop should be used when the number of loop iterations is known, and the while loop should be used when the number of iterations is not known.  It's kind of a feel, to me.  Some loops are uglier in while form, and some are uglier in for form.
+
+
+18.  How do you print the numeric value of a char?
+
+The way that I do it is to cast it as an int, like so:
+char x='x';
+int xnum=(int)x;
+
+The (int) temporarily treats the char x as an integer, and in this way you can get the numeric value without too much other fuckery involved.
+
+
+19.  Describe what the line char foo(int x) means in a function definition.
+
+That line means that the function is named foo, the function has one parameter which is an integer, and the result of the function is a char.
+
+
+20.  When should you define a separate function for part of a program?  List reasons.
+
+The main reason, IMO, to define a separate function is when you have about 10 lines or so that you need to execute multiple times, and you get sick of typing those 10 lines over and over and over.  At a certain point, when writing code straightforwardly, certain parts will repeat themselves.  The code often becomes simpler when those parts are made into separate functions.
+
+
+21.  What can you do to an int that you cannot do to a string?
+
+You can take the modulus of it.  You can subtract, multiply, and divide by it.  Actually, I am not sure of the multiplication part...OK, what else.  You can add it to another int and get an integer result.  That's most of it.  Also, I think you can do bitwise operations to an int and not to a string (unless you cast the string as a long or something, maybe...)  That would be an interesting test.  If casting to a long exposes the length byte, that would be bad.  Most likely, the compiler won't let any of that go down.
+
+
+22.  What can you do to a string that you cannot do to an int?
+
+You can reverse it.  You can add it to another string and get a valid result.  You can get the size of it.  You can store your name in it (unless your name is a number, like Secret Agent Man).
+
+
+23.  What is the index of the third elelment of a vector?
+
+2
+
+
+24.  How do you write a for-loop that prints every element of a vector?
+
+The for loop with a built in iterator for vectors and such is written as so:
+
+vector<int> nums={5,6,7,8,9};
+for(int i : nums)
+
+This loop will run 5 times, because the vector is 5 elements long.  I have no idea how it would work if a loop like this added values to the vector inside of the body.  It might not be that cool.  Inside of the loop body, i refers to the element of the vector being processed.  The loop goes in order from 5 to 9, and the body processes each value once.
+
+
+25.  What does vector<char> alphabet(26); do?
+
+I believe this...initializes a vector of chars called alphabet, that has 26 elements pre-allocated.
+
+
+26.  Describe what push_back() does to a vector?
+
+push_back() adds the parameter value to the end of the vector and increases the size by 1.  Essentially, it tacks it onto the end of the vector.
+
+
+27.  What do vector's member functions begin(), end(), and size() do?
+
+begin() and end() return the beginning and ending locations of the vector.  These seem to be necessary to pass to the sort() function, even though the example in the book sorted the vectors without begin or end...why is that?  size() returns the number of elements in the vector.  This is handy for operations, or loops that require the size of the vector, but aren't going to use the auto-iterating version of the loop.
+
+
+28.  What makes vector so popular/useful?
+
+It has variable size.  In C-type languages, this is actually pretty powerful.  Members can be added or deleted to it with no problem, and I am not sure if arrays can be used in iterative loops because we haven't gotten there yet, but vectors can.  You don't need to muck around with the size of the vector, just stick it into an iterative loop and it will hit every element, no matter the size of the vector.  More importantly, it can grow or shrink dynamically.
+
+
+29.  How do you sort the elements of a vector?
+
+vector<int> test;
+sort(test.begin(),test.end());
