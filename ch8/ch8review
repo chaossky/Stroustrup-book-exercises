@@ -1,0 +1,281 @@
+1.  What is the difference between a declaration and a definition?
+
+A declaration only describes the input, output, and name of a function, and not the code
+inside of the function that does work.  A definition describes everything that a declaration
+does, and also includes the code inside of the function.  A definition can also function as
+a declaration.
+
+
+2.  How do we syntactically distinguish between a function declaration and a function
+definition?
+
+A function declaration ends in a semicolon.  A function definition has curly braces after
+the declaration that include the function code, and does not end in a semicolon.
+
+
+3.  How do we syntactically distinguish between a variable declaration and a variable
+definition?
+
+A variable declaration usually has the extern keyword before it, and a variable declaration
+never does.
+
+
+4.  Why can't you use the functions in the calculator program from Chapter 6 without
+declaring them first?
+
+Some of the functions reference other functions in a circular pattern, thus requiring at least
+one of the functions to be declared before it is defined, so that the linker knows how to
+connect the code together.
+
+
+5.  Is int a; a definition or just a declaration?
+
+It is a definition.
+
+
+6.  Why is it a good idea to initialize variables as they are declared?
+
+Because it is unsafe to rely on the compiler, or the uninitialized memory contents in the
+variable to be the value that you want.  Many compilers automatically initialize a variable
+to 0...however, if you do it yourself, it will always be 0 no matter what compiler is used.
+
+
+7.  What can a function declaration consist of?
+
+A function declaration can consist of:  the function return type, the function name, the type(s)
+of the input parameters, and names for the input parameters.  The names of the input parameters
+are not necessary in the declaration.
+
+
+8.  What good does indentation do?
+
+Indentation done properly helps code readability massively by putting pieces of code, such as
+loop bodies or conditional statements, on different horizontal indentation levels.  This
+makes it much easier to see program structure, at a glance.  In Python, this is not just a
+convention but a necessity...the language itself uses indentation to signify the body of
+a loop or conditional statement.  Of course, this isn't Python.
+
+
+9.  What are header files used for?
+
+Header files include function and variable declarations, and they are used to enable the linker
+to link together code from different object files into one executable.
+
+
+10.  What is the scope of a declaration?
+
+A declaration is valid inside of the namespace in which it exists.
+
+
+11.  What kinds of scope are there?  Give an example of each.
+
+Global:
+
+int globetrotter=13;
+
+void switcheroo();
+
+int main()
+{
+	// Now it is 13.
+	cout << "global variable is: " << globetrotter << endl;
+	switcheroo();
+	// Now it is 31.
+	cout << "global variable is now: " << globetrotter << endl;
+}
+
+void switcheroo()
+{
+	globetrotter=(globetrotter==13)?
+		globetrotter=31
+		:globetrotter=13;
+}
+
+A global variable exists in the default namespace that encompasses all other namespaces.  It
+can be referenced from any code inside of the file, or in another file if the extern keyword
+is used to declare it.
+
+Namespace:
+
+namespace extra
+{
+	int special = 8;
+}
+
+int main()
+{
+	int special=10;
+	// First special is 10.
+	cout << "special in main is: " << special << endl;
+	// extra::special is 8.
+	cout << "extra::special is: " << extra::special << endl;
+}
+
+A namespace is the next smallest scope that resides inside of global.  It can encompass main()
+and also multiple other functions, but any function outside of the namespace can't reference it
+without using the :: symbol.
+
+Local:
+
+void otherguy()
+{
+	int mynum=11;
+	cout << mynum << endl;
+}
+
+int main()
+{
+	int mynum=8;
+	// This prints 8.
+	cout << mynum << endl;
+	// This prints 11.
+	otherguy();
+}
+
+Local variables only exist in between the curly braces where they are defined.  A variable
+declared inside of a loop is destroyed when the loop exits.  The variable mynum is different
+inside of main() than it is inside of otherguy().
+
+
+12.  What is the difference between a class scope and local scope?
+
+Oops, I forgot about class scope.  A variable defined inside of a class has separate existence
+inside each instance of the class unless it is defined with the static keyword, in which case
+that variable has one existence among all instances of the class.  A variable with local
+scope only exists in between the curly braces in which it is defined.
+
+
+13.  Why should a programmer minimize the number of global variables?
+
+Because there is no solid way to ensure that a global variable is not altered outside of your
+control.  There are no security measures on a global variable, so it is not safe to use.
+Nowadays, there is almost always a safe way to handle something that would seem to require
+a global variable.
+
+
+14.  What is the different between pass-by-value and pass-by-reference?
+
+Pass-by-value makes a copy of the data that is being passed, and passes that copy.  If the data
+being passed is an array with 10,000 elements, all of those elements are copied and then passed
+to the function.  If the data being passed is a class, a whole new copy of the class is
+constructed and populated, and then passed to the function.  Pass-by-value uses the stack,
+which can be overflowed if one is careless.
+Pass-by-reference passes a pointer that points to the address of data.  The upside is that
+no matter how large or small the data, the amount that is passed to the function is the same:
+a few bytes for a pointer.  This is much easier on the stack than pass-by-value for large
+structures.  Another big difference is that references point to the actual variable.  A
+function that uses PBV can manipulate its arguments without altering the original data.  Using
+PBR will alter the original data, which is not always what is desired.
+
+
+15.  What is the difference between pass-by-reference and pass-by-const-reference?
+
+PBCR essentially makes the reference read-only, preventing any unwanted changing of the
+value pointed at by the reference, and PBR allows manipulation of the dereferenced object.
+PBCR is an added safety measure...if you use PBR and don't write to the dereferenced object,
+they are the same thing.
+
+
+16.  What is a swap()?
+
+A swap() is where the values of two variables are exchanged.
+
+
+17.  Would you ever define a function with a vector<double>-by-value parameter?
+
+I don't think so.  Generally speaking, there is no reason to have the value passed to the
+function, and there can only be the risk of a stack overflow.
+
+
+18.  Give an example of undefined order of evaluation.  Why can undefined order of evaluation
+be a problem?
+
+The one and only example provided in the book states that if the value of a variable is
+changed more than once in the same expression, that there is no defined order of evaluation
+for it.  Example:  int x=++i + ++i.  It can be a problem because a piece of code with such
+a statement in it can run perfectly fine on your computer, with your compiler...but not
+compile properly on someone else's computer with their compiler.  Since there is no official
+order of evaluation for such a statement, there is no one way that a compiler will handle
+that statement, and thus it is not clearly written nor dependable code.
+
+
+19.  What do x&&y and x||y, respectively, mean?
+
+The first one is a boolean statement that evaluates to true if both x and y are true, and only
+if they are both true (Logical AND).  The second one is a boolean statement that evaluates to
+true if x is true or if y is true, and false only if they are both false (Logical OR).
+
+
+20.  Which of the following is standard-conforming C++: functions within functions, functions
+within classes, classes within classes, classes within functions?
+
+I am assuming that they mean "declarations of" before the words functions, or classes.
+Functions within functions:  Nope.  Explicitly not allowed.
+Functions within classes:  Totally good, that's like, the point of having classes.
+Classes within classes:  Allowed, if you really want to.
+Classes within functions:  The book sez that it's acceptable, but almost always bad form.
+
+
+21.  What goes into an activation record?
+
+Ah, yes, an activation record, which is the data structure that goes on the stack that contains
+all of the information that a function needs to return a value to its caller.  I knew what that
+was without looking in the book...just kidding.  All of a functions local variables go into
+the activation record, as well as some other...stuff...that isn't really dissected further.
+
+
+22.  What is a call stack and why do we need one?
+
+A call stack is a stack that keeps activation records for each function call.  We need one
+to keep track of recursive or repeated calls of the same function, so that each instance
+of the function has its own local data which is separate from each other instance.  The call
+stack enables functions to make recursive calls or operate in circular structures, you know,
+all of the fun stuff.
+
+
+23.  What is the purpose of a namespace?
+
+A namespace exists so that it is possible to control the scope of variables and functions,
+and ensure that they have unique names.  With namespaces, you don't have to worry about who
+else named their function circle(), you just create your own namespace and then you can call it
+circle(), even if someone else in another library already has (they have).  In the scope of
+your namespace, circle() is an acceptable name.
+
+
+24.  How does a namespace differ from a class?
+
+A class is an object, that can be instantiated and copied.  A namespace is a scope, like
+global, but a bit smaller.  Private and public members of a class can be declared inside
+of a class inside of a namespace, but a namespace isn't an object, it is only a scope for
+the purposes of organizing code.
+
+
+25.  What is a using declaration?
+
+A using declaration names a namespace to be used in order to resolve ambiguous references
+to functions or variables.  The using directive also gives the compiler an option to try
+when a function call cannot be resolved.  cout exists in the std namespace...if 'using
+namespace std' is not in the code, cout cannot be found unless it is called as std::cout.
+Including a 'using namespace std' directive  means that if the compiler can't find cout, it
+will try std::cout (which works).
+
+
+26.  Why should you avoid using directives in a header?
+
+Use of the using directive should be completely controlled by the programmer.  The whole point
+of the using directive is to conveniently eliminate ambiguity when referencing elements of
+different namespaces.  Including the using directive in a header file might be more convenient,
+but it creates more ambiguity because it can allow the circumstance of a seemingly ambiguous
+function call compiling and running, only the programmer can't figure out which exact
+instance of the function is running, unless they know about the directive in the header file.
+And then the programmer has to dig through header files in order to find the directive, and
+header files are not supposed to be dug through.  That code is supposed to just work.
+
+
+27.  What is namespace std?
+
+std is the namespace in which the standard library functions are declared.  The std namespace
+enables you to declare your own functions with the same names outside of the namespace, if you
+so choose.  Each function can be referred to with std::, or if you know that all of your
+function calls are going to be std with no ambiguity, a simple "using namespace std" directive
+is all you need.
